@@ -1,0 +1,10 @@
+node_modules/
+*.zip
+.DS_Store
+publishing/
+icon-concepts/
+design-qa.md
+screenshots/reference.png
+*.log
+.env
+.env.*

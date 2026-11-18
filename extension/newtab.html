@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="color-scheme" content="dark"><title>CashTab — Новая вкладка</title>
+ <link rel="icon" href="assets/icon-48.png"><link rel="stylesheet" href="styles.css">
+ <script type="module" src="app.js"></script>
+</head>
+<body>
+ <div id="wallpaper" aria-hidden="true"></div>
+ <header class="menubar">
+  <nav aria-label="Меню рабочего стола">
+   <button class="brand menu-trigger" data-menu="desktop" aria-label="Меню CashTab" aria-expanded="false"><img src="assets/icons/bi-gear.svg" alt="" class="ui-icon"></button>
+   <button class="finder-label" data-action="apps">Finder</button>
+   <button class="menu-trigger" data-menu="file" aria-expanded="false">Файл</button>
+   <button class="menu-trigger" data-menu="view" aria-expanded="false">Вид</button>
+   <button class="menu-trigger" data-menu="sort" aria-expanded="false">Сортировать</button>
+   <button data-action="refresh">Обновить</button>
+   <button class="menu-trigger" data-menu="windows" aria-expanded="false">Окна</button>
+  </nav>
+  <div class="menu-status"><span class="local-status" title="Настройки и заметки хранятся только в этом браузере"><img src="assets/icons/bi-shield-check.svg" class="ui-icon" alt="">Локально</span><span class="language">RU</span><button data-action="search" aria-label="Поиск"><img src="assets/icons/bi-search.svg" class="ui-icon" alt=""></button><button data-action="settings" aria-label="Настройки"><img src="assets/icons/bi-gear.svg" class="ui-icon" alt=""></button><time id="menu-clock"></time></div>
+ </header>
+ <main id="desktop" aria-label="Рабочий стол">
+  <section class="desktop-window app-window" id="apps-window" aria-label="Приложения">
+   <header class="window-titlebar" data-drag="apps-window"><button class="favorite-toggle" aria-label="Показать только избранное" aria-pressed="false"><img src="assets/icons/bi-heart-fill.svg" class="ui-icon" alt=""></button><h1>Приложения</h1><button data-action="edit" aria-label="Редактировать приложения"><img src="assets/icons/bi-three-dots.svg" class="ui-icon" alt=""></button></header>
+   <div class="app-grid" id="app-grid"></div>
+   <div id="apps-empty" class="empty" hidden>Здесь пока нет ссылок.<br><button data-action="add-link">Добавить первую</button></div>
+  </section>
+  <p id="wallpaper-caption" class="wallpaper-caption">“WALLPAPER”</p>
+  <section class="desktop-window notes-window" id="notes-window" aria-label="Заметки" hidden>
+   <header class="window-titlebar" data-drag="notes-window"><div class="traffic-lights"><button class="traffic red" data-action="close-notes" aria-label="Закрыть заметки"></button></div><h2>Заметки</h2><span id="note-status">Локально</span></header>
+   <textarea id="notes" aria-label="Текст заметки" placeholder="Мысль, которую не хочется потерять…" spellcheck="true"></textarea>
+  </section>
+ </main>
+ <footer class="dock" aria-label="Док"><div id="dock-links" class="dock-links"></div><span class="dock-separator"></span><button class="dock-item" data-action="trash" aria-label="Корзина ссылок"><span class="dock-tooltip">Корзина</span><img class="dock-icon" src="assets/trash-classic.png" alt=""><span class="dock-dot" id="trash-dot" hidden></span></button></footer>
+ <div class="dropdown" id="menu" role="menu" hidden></div>
+ <dialog id="search-dialog" class="spotlight" aria-label="Поиск"><form id="search-form"><img src="assets/icons/bi-search.svg" class="ui-icon" alt=""><input id="search-input" type="search" placeholder="Поиск в интернете или адрес сайта" aria-label="Поисковый запрос" autocomplete="off"><kbd>Enter</kbd></form><p>Google · Escape — закрыть</p></dialog>
+ <dialog id="settings-dialog" class="settings-window" aria-labelledby="settings-title">
+  <header class="dialog-titlebar"><div class="traffic-lights"><button class="traffic red" data-close="settings-dialog" aria-label="Закрыть настройки"></button><span class="traffic yellow"></span><span class="traffic green"></span></div><h2 id="settings-title">Системные настройки</h2></header>
+  <div class="settings-tabs" role="tablist" aria-label="Разделы настроек"><button role="tab" aria-selected="true" aria-controls="appearance-panel" id="appearance-tab" data-settings-tab="appearance">Рабочий стол</button><button role="tab" aria-selected="false" aria-controls="links-panel" id="links-tab" data-settings-tab="links" tabindex="-1">Приложения и док</button><button role="tab" aria-selected="false" aria-controls="about-panel" id="about-tab" data-settings-tab="about" tabindex="-1">О расширении</button></div>
+  <section id="appearance-panel" class="settings-panel" role="tabpanel" aria-labelledby="appearance-tab">
+   <div class="wallpaper-preview"><img id="wallpaper-preview" src="assets/wallpaper.png" alt="Текущие обои"></div>
+   <div class="settings-row"><div><h3>Свои обои</h3><p>PNG, JPEG или WebP · до 4 МБ</p></div><label class="mac-button" for="wallpaper-upload">Выбрать файл…</label><input type="file" id="wallpaper-upload" accept="image/png,image/jpeg,image/webp" hidden></div>
+   <div class="settings-row"><label for="caption-input">Надпись на рабочем столе</label><input id="caption-input" maxlength="60" placeholder="Можно оставить пустым"></div>
+   <div class="settings-row"><label for="clock-format">Формат времени</label><select id="clock-format"><option value="24">24 часа</option><option value="12">12 часов</option></select></div>
+   <div class="settings-row"><label for="dock-size">Размер дока</label><input type="range" id="dock-size" min="44" max="76" step="4"></div>
+   <div class="settings-row"><label for="show-apps">Окно приложений</label><input type="checkbox" id="show-apps"></div>
+   <div class="settings-row"><label for="show-caption">Показывать надпись</label><input type="checkbox" id="show-caption"></div>
+   <div class="settings-actions"><button class="mac-button" id="reset-wallpaper">Вернуть исходные обои</button><span class="auto-save">Изменения сохраняются автоматически</span></div>
+  </section>
+  <section id="links-panel" class="settings-panel" role="tabpanel" aria-labelledby="links-tab" hidden><div class="settings-row"><div><h3>Твои приложения</h3><p>Меняй порядок стрелками. Избранные появятся в доке.</p></div><button class="mac-button primary" data-action="add-link">Добавить</button></div><div id="links-editor"></div></section>
+  <section id="about-panel" class="settings-panel about-panel" role="tabpanel" aria-labelledby="about-tab" hidden><img src="assets/icon-256.png" alt="" width="80" height="80"><h3>CashTab</h3><p>Твой маленький рабочий стол в новой вкладке.</p><p>Версия 1.0.1 · Сделано для тебя</p><p>Ссылки, заметки и обои хранятся локально. Расширение не читает историю, не получает доступ к другим страницам и не запускает приложения Windows. Иконки открывают сайты.</p><p>Вдохновлено настольным Mac. Не связано с Apple.</p><p class="credits">Иконки: <a href="https://icons8.com" target="_blank" rel="noopener noreferrer">Icons8</a>, <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap Icons</a>, <a href="https://iconify.design/" target="_blank" rel="noopener noreferrer">Iconify Logos</a>. Права на логотипы принадлежат их владельцам. Фон создан с ImageGen.</p><button class="mac-button" id="export-settings">Экспорт настроек</button><p class="subtle">Экспорт не включает изображение обоев.</p></section>
+ </dialog>
+ <dialog id="link-dialog" class="small-dialog" aria-labelledby="link-title"><header class="dialog-titlebar"><button class="traffic red" data-close="link-dialog" aria-label="Закрыть"></button><h2 id="link-title">Добавить приложение</h2></header><form id="link-form"><input type="hidden" id="link-id"><label>Название<input id="link-name" maxlength="32" required autocomplete="off"></label><label>Адрес сайта<input id="link-url" placeholder="https://example.com" required autocomplete="url"></label><label>Иконка<select id="link-icon"></select></label><label class="checkbox-label"><input id="link-dock" type="checkbox" checked>Показывать в доке</label><p id="link-error" class="form-error" role="alert"></p><div class="form-actions"><button class="mac-button" type="button" data-close="link-dialog">Отмена</button><button class="mac-button primary" type="submit">Сохранить</button></div></form></dialog>
+ <dialog id="trash-dialog" class="small-dialog" aria-labelledby="trash-title"><header class="dialog-titlebar"><button class="traffic red" data-close="trash-dialog" aria-label="Закрыть корзину"></button><h2 id="trash-title">Корзина ссылок</h2></header><div id="trash-list"></div><p class="trash-hint">Удалённые ссылки можно восстановить здесь.</p></dialog>
+ <div id="toast" role="status" class="toast" hidden></div>
+</body>
+</html>
